@@ -3,6 +3,10 @@
 const adminParams = new URLSearchParams(window.location.search);
 const tableType = adminParams.get('table');
 
+var columnNames = [];
+var spanHeader = document.createElement("span");
+
+
 console.log(tableType);
 
 console.log(tableType);
@@ -20,6 +24,40 @@ const tableBody = document.querySelector('#tableBody');
 const tableHeading = document.querySelector('#tableHeading');
 
 //------------------------------------------------------------------------------------------------------------
+
+// HANDLING PARAM FOR UPDATE BUTTONS
+
+$(document).on('click', "#up" + tableType, function() {
+
+    var row = $(this).closest("tr");
+
+    var id = [];
+
+    if (tableType == "flight_crew") {
+        id.push(row.find("td:first").text());
+        id.push(row.find("td:eq(1)").text());
+    } else {
+        // Find the first column in the row and get its text content
+        id.push(row.find("td:first").text());
+    }
+    
+   
+
+    var arrayToSend = [];
+
+    arrayToSend.push(tableType);
+    arrayToSend.push(spanHeader.textContent);
+    arrayToSend.push(id);
+
+    // Convert the array to JSON string
+    var jsonArr = JSON.stringify(arrayToSend);
+    
+    // Construct the URL with the JSON string as a parameter
+    var url = "./updateTable.html?record=" + encodeURIComponent(jsonArr);
+
+    window.location.href = url;
+});
+   
 
 
 //------------------------------------------------------------------------------------------------------------
@@ -72,6 +110,10 @@ function showInTables(backendTable) {
         Object.keys(record).forEach(function(key) {
             var td = document.createElement("td");
             // Set the data-label attribute to the key (column name)
+            if (key == "pass_id") {
+                td.id = "id";
+            }
+
             td.setAttribute("data-label", key);
             // Set the text content of the td to the value of the corresponding property
             td.textContent = record[key];
@@ -96,14 +138,18 @@ function createUpdateDeleteBtns() {
     var updateLink = document.createElement("a");
     updateLink.href = "#";
     updateLink.classList.add("btn");
-    updateLink.id = "updateBtn";
+    updateLink.classList.add("updateBtn");
+
+    updateLink.id = "up" + tableType;
     updateLink.textContent = "Update";
 
     // Create the "Delete" link
     var deleteLink = document.createElement("a");
     deleteLink.href = "#";
     deleteLink.classList.add("btn");
-    deleteLink.id = "deleteBtn";
+    deleteLink.classList.add("deletBtn");
+
+    deleteLink.id = "del" + tableType;
     deleteLink.textContent = "Delete";
 
     // Append the <a> elements to the <td> element
@@ -113,12 +159,12 @@ function createUpdateDeleteBtns() {
     return td;
 }
 
+
 function createColumnNames() {
-    var columnNames = [];
     if (tableType == "flight") {
         columnNames = ["Flight ID", "Flight Number", "Date", "Departure Time", "Arrival Time", "From", "To", "Plane Serial Number"];
-    } else if (tableType == "user") {
-        columnNames = ["User ID", "Surname", "Name", "Email", "Address", "Phone"];
+    } else if (tableType == "passenger") {
+        columnNames = ["Passenger ID", "Surname", "Name", "Email", "Address", "Phone"];
     } else if (tableType == "pass_flight") {
         columnNames = ["Passenger ID", "Passenger Surname", "Passenger Name", "Flight Number", "Flight Departure", "From", "To"];
     } else if (tableType == "staff") {
@@ -144,7 +190,6 @@ function createColumnNames() {
 // FUNCTION THAT HANDLES AND CREATES APPROPRIATE HEADING FOR EACH TABLE BASED ON THE PARAMETER OF THE PAGE
 
 function createHeading() {
-    var spanHeader = document.createElement("span");
 
     if (tableType == "pass_flight") {
         spanHeader.textContent = "Passengers & Flights Table";
