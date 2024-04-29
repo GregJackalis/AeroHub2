@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" type="text/css" href="newFooter.css" />
+    <link rel="stylesheet" type="text/css" href="logIn-register.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Container that holds both navigation bar and the first section underneath the navigation bar-->
+    <div class="container">
+
+        <!-- navigation bar config -->
+        <nav class="navBar">
+            <div class="logo">
+                <button style="display: flex;background: transparent;border: none;" onclick="window.location.href='home.html';">
+                    <img src="../images/airplane.png" alt="" style="margin-right: 15px;">
+                    <h1 style="margin-top: 15px; color: wheat;">AeroHub</h1>
+                </button>
+            </div>
+            <!-- <ul>
+                <li class="btns"><a href="home.html"></a>Home</li>
+                <li class="btns"><a href="home.html"></a>Your Cart</li>
+                <li class="btns"><a href="home.html"></a> Favourites</li>
+                <li class="btns"><a href="home.html"></a>Your Orders</li>
+            </ul> -->
+
+            <!-- Button that takes the user to the login/register pages (and from there the user can switch between customer and admin login) -->
+            <button class="btns" id="getStarted" onclick="window.location.href='../Forms/customerForm.html';" style="color: wheat;">LOGIN / SIGNUP</button>
+        </nav>
+
+        <!-- div element for the first/main section right under the navigation bar when user is at the top of the web page -->
+        <div class="center">
+            <h1>Life Is Short And The World Is Wide!</h1>
+            <p>Welcome to AeroHub! Say goodbye to endless browsing and hello to effortless travel planning. 
+              We're dedicated to providing an easy-to-use platform for booking your flight tickets hassle-free! </p>
+
+            <button class="tryBtn" onclick="window.location.href='../Forms/customerForm.html';">Try it yourself!</button>
+        </div>
+    </div>
+
+
+    <div class="bookFlightSection">
+
+      <!-- BOOK A FLIGHT SECTION, this includes the form (and all the fields) that will be used to sent data to the back end of the app-->
+      <div class="status">
+        <div class="option">
+            <ul>
+                <li> <i class="fa-solid fa-plane"></i>Find Your Perfect Journey Here!</li>
+
+            </ul>
+            <!-- <p>Looking for Travel ideas? Explore Map <i class="fa-solid fa-earth-asia"></i></p> -->
+        </div>
+        <div class="flight-status">
+            <span class="from" style="display: flex;">
+                <p>From:</p> 
+                <span>
+                    <input type="text" placeholder="Bern, CHA" id="fromPlaceInp">
+                </span>
+            </span>
+            <span class="to" style="display: flex;">
+                <p>To:</p> 
+                <span>
+                    <input type="text" placeholder="Athens, GRE" id="toPlaceInpt">
+                </span>
+            </span>
+
+            <span class="depDate"><p>Dep. Date</p></span>
+
+            <span class="fromDate" style="display: flex;">
+                <input type="date" class="fromD" id="fromDateInp">
+            </span>
+
+            <span class="arrDate"><p>Return</p></span>
+            <span class="toDate">
+                <input type="date" class="toD" id="toDateInpt">
+            </span>
+
+            <input type="hidden" name="type" value="searchFlight" id="type">
+
+            <button class="search-button"><div class="search"><i class="fa-solid fa-magnifying-glass"></i></div></button>
+        </div>
+        <div class="check">
+            <ul>
+                <!-- <li> <i class="fa-solid fa-tags"></i>My Booking</li>
+                <li class="line"><i class="fa-solid fa-circle-plus"></i>Flight Status</li>
+                <li> Charter Flights</li> -->
+            </ul>
+        </div>
+      </div>
+    </div>
+      
+    <!-- footer element that includes my university's information, essential for the submition of my assignment-->
+      <footer id="footer">
+        <ul class="copyright">
+          <li>&copy; Grigorios Tsakalis </li>
+          <li><a href="mailto:grig.tsakalis@mc-class.gr" class="icon fas fa-envelope"><span class="label">Email</span></a></li>
+          <li>Student ID: 100675774</li>
+        </ul>
+      </footer>
+
+      <!-- javascript used to make the navigation bar stick on top so the browser's window even when user is scrolling down the page -->
+    <script src="sticky.js"></script>
+    <script src="home.js"></script>
+    <script src="../Forms/ajax_handler.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="form.css">
+	<link rel="stylesheet" href="../Home/newFooter.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<style>
+		body {
+			background-image: url(../images/admin-form-back.avif);
+			background-size: cover; /* Cover the entire section */
+    		background-position: center; /* Center the background image */
+    		background-repeat: no-repeat; /* Prevent background image from repeating */
+		}
+	</style>
+</head>
+<body>
+
+	<h2 id="heading" style="color: white;">Administration Login</h2>
+
+	<!-- same code as in the customerForm.php, this includes the button used to take user's to the home page -->
+	<div class="homeContainer">
+		<button id="homepageBtn" onclick="window.location.href='../Home/home.html'">Back to Home Page</button>
+	</div>
+	
+	<!-- similar to the customer's forms, this div element contains ONLY a login form since an admin cannot just register, but can only login
+		 trhrough credentials give to them from the company -->
+	<div>
+		<div class="container" id="container">
+			<div class="form-container sign-in-container">
+				<!-- LOGIN FORM -->
+				<form id="adminForm">
+					<h1>Sign in</h1>
+					<span>to get access</span>
+					<input type="email" placeholder="Email" name="adminEmail" id="a1"/>
+					<input type="password" placeholder="Password" name="adminPassword" id="a2"/>
+					<input type="hidden" name="type" value="adminLogin">
+					<button id="adminSignInBtn">Sign In</button>
+				</form>
+			</div>
+
+			<div class="overlay-container">
+				<div class="overlay">
+					<div class="overlay-panel overlay-right">
+						<h1>Hello, Admin!</h1>
+						<p>We're happy to see you back! 
+							Please provide the credentials given to you by our company 🤩</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="roleContainer">
+			<button id="customerBtn" onclick="window.location.href='customerForm.html'">LOGIN AS CUSTOMER</button>
+		</div>
+	</div>
+
+	<!-- <footer id="footer">
+        <ul class="copyright">
+          <li>&copy; Grigorios Tsakalis </li>
+          <li><a href="mailto:grig.tsakalis@mc-class.gr" class="icon fas fa-envelope"><span class="label">Email</span></a></li>
+
+        </ul>
+      </footer> -->
+
+	  <script src="ajax_handler.js"></script>
+	  <!-- <script src="temp.js"></script> -->
+
+</body>

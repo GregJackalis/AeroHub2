@@ -1,0 +1,260 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #87CEEB;
+}
+
+.navBar {
+    /* background-image: url(../images/sky.webp); */
+    /* background-size: cover; */
+    /* background-position: center; */
+    /* background-repeat: no-repeat; */
+
+    background: linear-gradient(to right, #949393, #1f1e1e) !important;/* Background color applied after background image properties */
+    color: wheat; 
+    margin-left: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 5px auto;
+    justify-content: space-between;
+    border-bottom: 5px solid #9cebff;
+    margin-top: -5px;
+    position: fixed; /* Stick the navigation bar to the top */
+    top: 0; /* Position it at the top of the viewport */
+    z-index: 1000; /* Set a high z-index value to keep it on top */
+}
+
+
+.navBar #getStarted {
+    position: relative;
+    right: 45px;
+    top: 2px;
+}
+
+ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.btns {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: none;
+}
+
+.container {
+    background-image: url(../images/airport.jpg);
+    background-size: cover; /* Cover the entire section */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent background image from repeating */
+    height: 1150px !important;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav .toggleButton {
+    color: #fff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    display: none;
+    margin-right: 15px;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: 75px;
+}
+nav img{
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+}
+
+nav ul{
+    position: relative;
+    right: -15px;
+    display: flex;
+    list-style: none;
+    cursor: pointer;
+    font-size: large;
+    font-weight: bold;
+    align-items: center;
+
+}
+
+nav ul li{
+    padding: 0 0px;
+    position: relative;
+    right: 28px;
+}
+
+nav .btns{
+    cursor: pointer;
+    font-size: large;
+    font-weight: bolder;
+    border: none;
+    background: transparent;
+}
+
+nav .btns:hover {
+    color: #3ba4e5 !important;
+}
+
+.center{
+ width: 600px;
+ margin: 50px 70px;
+ position: relative;
+ top: 75px;
+ /* left: 350px; */
+ border: 5px solid black;
+ padding: 25px 8px;
+ border-radius: 12px;
+ background-color: rgba(245, 245, 220, 0.8);
+ /* display: flex;
+ flex-direction: column;
+ align-items: center; */
+ transform: scale(0.9); /* Adjust the scale factor as needed */
+
+}
+
+.center h1{
+    position: relative;
+    top: -25px;
+    font-size: 70px;
+    color: black;
+    left: 68px;
+}
+
+.center p{
+    position: relative;
+    top: -38px;
+    font-size: larger;
+    font-weight: 50px;
+    padding: 30px 0;
+    color: black;
+    text-align: center;
+    /* right: 50px; */
+}
+
+.center ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: -25px;
+}
+
+.center li .invisibleBtn{
+    border: 5px solid black;
+    padding: 7px 8px;
+    border-radius: 12px;
+    background-color: rgba(245, 245, 220, 0.9);
+    margin-top: 18px;
+    margin-bottom: 10px;
+    max-width: 300px;
+    width: 300px;
+    text-align: center;
+    font-size: x-large;
+}
+
+.center .invisibleBtn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    /* Additional styles to remove any visual effects */
+    cursor: pointer; /* Keeps the cursor as pointer when hovering */
+    color: inherit; /* Inherits the color from its parent */
+    font: inherit; /* Inherits the font from its parent */
+    text-decoration: none; /* Removes any underline */
+    outline: none; /* Removes the default focus outline */
+}
+
+.center .invisibleBtn:hover {
+background-color: rgba(220, 220, 220, 1);
+}
+
+.status{
+    width: 80%;
+    height: 150px;
+    margin: auto;
+    position: relative;
+    top: 40px;
+    background-color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    box-shadow: 10px 10px 40px rgb(73, 70, 70);
+}
+
+/* #greetAdmin {
+  position: relative;
+  left: 500px;
+} */
+
+/* RESPONSIVE DESIGN */
+@media(max-width: 1213px){
+    .logo {
+        left: 5px;
+    }
+    .navBar .links,
+    .navBar .getStarted{
+      display: none;
+    }
+  
+    .navBar{
+      backdrop-filter: blur(0);
+    }
+  
+    .navBar .toggleButton{
+      display: block;
+    }
+  
+    .dropDownMenu {
+      display: block;
+    }
+  }
+  
+  @media(max-width: 576px){
+    .dropDownMenu {
+      left: 2rem;
+      width: unset;
+    } 
+  }
+  @media(max-width: 576px){
+    .services>.container{
+      display: none; 
+    }
+    .search>.container {
+       display: none;
+    }
+  }
+  @media(max-width: 1117px){
+    .search>.container {
+      align-items: center;
+      height: 55vh;
+      width: 50%;
+    }
+    .search-bar {
+      padding: 0px 10px;
+    }
+  }
+  
+  .search-button {
+    transition: transform 80ms ease-in;
+  }
+  
+  .search-button:active {
+    transform: scale(0.95);
+  }

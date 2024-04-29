@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url(../images/admin-home-background.jpg);
+    background-size: cover; /* Cover the entire background */
+    background-repeat: no-repeat; /* Do not repeat the background image */
+    background-attachment: fixed; /* Fixed background */
+    font-family: sans-serif;
+    margin-bottom: 30px; 
+}
+
+.table-container {
+    padding: 0 10%;
+    margin: 60px auto 30px;
+
+}
+
+.heading {
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: balck;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(245, 245, 220, 0.8);
+}
+
+.table thead {
+    background-color: rgb(61, 109, 142);
+}
+
+.table thead tr th{
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    color: rgb(234, 234, 234);
+    opacity: 1;
+    padding: 12px;
+    vertical-align: center;
+    border: 1px solid #264d81;
+}
+
+.table tbody tr td {
+    font-size: 14px;
+    font-weight: normal;
+    letter-spacing: 0.35px;
+    color: white;
+    background-color: gray;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #264d81;
+}
+
+.table .text_open {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.35px;
+    color: #18d554;
+}
+
+/* Style for .btn class */
+.table tbody tr td .btn {
+    width: 150px;
+    text-decoration: none;
+    line-height: 35px;
+    display: inline-block;
+    margin-right: 5px; /* Add some margin between the links */
+    background-color: rgb(255, 0, 0);
+    font-weight: medium;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    font-size: 14px;
+    opacity: 1;
+    border: 1px solid black;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+/* Additional styles for .invisibleBtn class */
+.table tbody tr td .btn .invisibleBtn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    /* Additional styles to remove any visual effects */
+    cursor: pointer; /* Keeps the cursor as pointer when hovering */
+    color: inherit; /* Inherits the color from its parent */
+    font: inherit; /* Inherits the font from its parent */
+    text-decoration: none; /* Removes any underline */
+    outline: none; /* Removes the default focus outline */
+}
+
+/* Style for #updateBtn */
+.table tbody tr td .updateBtn {
+    background-color: rgb(31, 193, 31);
+    transition: transform 0.3s; /* Add transition for smooth animation */
+}
+
+.table tbody tr td #deleteBtn {
+    background-color: rgb(208, 34, 34);
+    transition: transform 0.3s; /* Add transition for smooth animation */
+}
+/* Style for #updateBtn when active */
+.table tbody tr td .updateBtn:hover, .table tbody tr td #deleteBtn:hover {
+    background-color: rgb(50, 57, 50);
+    color: beige;
+}
+
+.table tbody tr td .updateBtn:active, .table tbody tr td #deleteBtn:active {
+    transform: scale(0.9); /* Apply scale transformation */
+}
+
+.homeContainer {
+	position: absolute;
+	top: 70px; /* adjust as needed */
+	left: 140px; /* adjust as needed */
+}
+
+#homepageBtn {
+	border-radius: 5px;
+	padding: 12px;
+	background-color: rgb(255, 72, 0);
+	color: white;
+}
+
+#homepageBtn:hover {
+	color: rgb(255, 72, 0);
+	background-color: white;
+}

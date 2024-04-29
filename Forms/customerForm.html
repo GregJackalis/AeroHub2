@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="form.css">
+	<link rel="stylesheet" href="../Home/newFooter.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+		<h2 id="heading">Unlock the Power of AeroHub</h2>
+
+		<!-- container that includes the Home Button that takes the user from the login/register page to the Home Page. This is used by both
+			  admin and customer login pages -->
+		<div class="homeContainer">
+			<button id="homepageBtn" onclick="window.location.href='../Home/home.html'">Back to Home Page</button>
+		</div>
+
+		<!-- container that holds the user login and regiser form -->
+		<div>
+			<div class="container" id="container">
+
+				<!-- sign up form -->
+				<div class="form-container sign-up-container">
+					<form id="registerForm">
+						<h1>Create Account</h1>
+						<span>to get access to advanced features</span>
+						<input type="text" placeholder="Surname"  name="userSurnameR"/>
+						<input type="text" placeholder="Name"  name="userNameR"/>
+						<input type="email" placeholder="Email" name="userEmailR"/>
+						<input type="password" placeholder="Password"  name="userPassR"/>
+						<input type="text" placeholder="Address"  name="userAddressR"/>
+						<input type="text" placeholder="Phone Number"  name="userPhoneR"/>
+						<input type="hidden" name="type" value="customerRegister">
+						<button type="submit" id="registerBtn" >Sign Up</button>
+					</form>
+				</div>
+
+				<!-- login form -->
+				<div class="form-container sign-in-container">
+					<form id="loginForm">
+						<h1>Sign in</h1>
+						<span>to find your next trip</span>
+						<input type="email" placeholder="Email" name="userEmailL" id="l1"/>
+						<input type="password" placeholder="Password" name="userPassL" id="l2"/>
+						<input type="hidden" name="type" value="customerLogin">
+						<button type="submit" id="loginBtn" >Sign In</button>
+					</form>
+				</div>
+
+				<!-- div element used for the add-on texts on the opposite side of each form that shows on the screen -->
+				<div class="overlay-container">
+					<div class="overlay">
+						<div class="overlay-panel overlay-left">
+							<h1>Welcome to our Family!</h1>
+							<p>To keep connected with us please login with your personal information 📝</p>
+							<button class="ghost" id="signIn">Sign In</button>
+						</div>
+						<div class="overlay-panel overlay-right">
+							<h1>Hello, Friend!</h1>
+							<p>Enter your personal details and start planning your holidays! ✈️</p>
+							<button class="ghost" id="signUp">Sign Up</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="roleContainer">
+				<button id="adminBtn" onclick="window.location.href='adminForm.html'">LOGIN AS ADMIN</button>
+			</div>
+		</div>
+
+		<!-- <footer id="footer" style="margin-top:55px;">
+			<ul class="copyright">
+			<li>&copy; Grigorios Tsakalis </li>
+			<li><a href="mailto:grig.tsakalis@mc-class.gr" class="icon fas fa-envelope"><span class="label">Email</span></a></li>
+
+			</ul>
+      	</footer> -->
+
+	<!-- this script is used for the transitionin features between user's login and register forms -->
+	<script src="form.js"> </script>
+	<script src="ajax_handler.js"></script>
+
+</body>

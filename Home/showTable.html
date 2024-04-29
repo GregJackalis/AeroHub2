@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Table</title> <!-- CHANGE THIS DYNAMICALLY THROUGH JS? -->
+        <link rel="stylesheet" href="table.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    
+    <body>
+        <div class="homeContainer">
+            <button id="homepageBtn" onclick="window.location.href='./adminPage.html'">Back to Admin Page</button>
+        </div>
+
+        <div class="table-container">
+            <h1 class="heading" id="tableHeading"></h1>
+            <table class="table">
+                <thead>
+                    <tr id="columnHeaders">
+                    </tr>
+                </thead>
+                <!-- CONTENT OF TABLE (will be filled dynamically through javascript in the future) -->
+                <tbody id="tableBody">
+                    <!-- <tr>
+                        <td data-label="Pass ID">25</td>
+                        <td data-label="Surname">Tsakalis</td>
+                        <td data-label="Name">Grigorios</td>
+                        <td data-label="Email">gregorytsak3@gmail.com</td>
+                        <td data-label="Address">Vasileiou Meleti 31, 18757</td>
+                        <td data-label="Phone Number">6940183694</td>
+                        <td data-label="Batch Status">
+                            <span class="text_open">[ Open ]</span>
+                        </td>
+                        <td data-label="#">
+                            <a href="#" class="btn" id="updateBtn"> Update </a>
+                            <a href="#" class="btn" id="deleteBtn"> Delete </a>
+                        </td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+
+        <script src="../Forms/tables_ajax.js"></script>
+    </body>
+</html>

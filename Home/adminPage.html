@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" type="text/css" href="newFooter.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Container that holds both navigation bar and the first section underneath the navigation bar-->
+    <div class="container" style="background-image: url(../images/admin-home-background.jpg);">
+
+        <!-- navigation bar config -->
+        <nav class="navBar">
+            <div class="logo">
+                <button style="display: flex;background: transparent;border: none;">
+                    <img src="../images/airplane.png" alt="" style="margin-right: 15px;">
+                    <h1 style="margin-top: 15px; color: wheat;">AeroHub</h1>
+                </button>
+            </div>
+            <ul>
+                <!-- <li class="btns"><a href="home.html"></a>Home</li>
+                <li class="btns"><a href="home.html"></a>Your Cart</li>
+                <li class="btns"><a href="home.html"></a> Favourites</li> -->
+                <li id="greetAdmin"></li>
+                <!-- <a href="home.html"></a> -->
+            </ul>
+
+            <!-- Button that takes the user to the login/register pages (and from there the user can switch between customer and admin login) -->
+            <button class="btns" id="getStarted" onclick="window.location.href= './home.html'" style="color: wheat;">LOGOUT </button>
+        </nav>
+
+        <!-- div element for the first/main section right under the navigation bar when user is at the top of the web page -->
+        <div class="center">
+            <h1>ADMIN PAGE</h1>
+            <p>Welcome back admin! Below you will find all the actions needed to operate and manage our applications database. 
+                Through those operations flights, airplanes, staff, and more, will be assigned to flights! </p>
+
+                <ul>
+                    <li><button id="passBtn" class="invisibleBtn">See Passengers Table</button></li></button>
+                    <li><button id="flightBtn" class="invisibleBtn">See Flights Table</button></li></button>
+                    <li><button id="flightPassBtn" class="invisibleBtn">See Flights & Passengers Table</button></li></button>
+                    <li><button id="staffBtn" class="invisibleBtn">See Staff Table</button></li></button>
+                    <li><button id="flightCrewBtn" class="invisibleBtn">See Flight-Crew Table</button></li></button>
+                    <li><button id="pilotBtn" class="invisibleBtn">See Pilot-Info Table</button></li></button>
+                    <li><button id="airplaneBtn" class="invisibleBtn">See Airplane Table</button></li></button>
+                    <li><button id="cityBtn" class="invisibleBtn">See City Table</button></li></button>
+                    <li><button id="intermBtn" class="invisibleBtn">See Intermediate Stop Table</button></li></button>
+                </ul>
+        </div>
+    </div>
+
+    <!-- footer element that includes my university's information, essential for the submition of my assignment-->
+      <footer id="footer">
+        <ul class="copyright">
+          <li>&copy; Grigorios Tsakalis </li>
+          <li><a href="mailto:grig.tsakalis@mc-class.gr" class="icon fas fa-envelope"><span class="label">Email</span></a></li>
+          <li>Student ID: 100675774</li>
+        </ul>
+      </footer>
+
+      <!-- javascript used to make the navigation bar stick on top so the browser's window even when user is scrolling down the page -->
+    <script src="sticky.js"></script>
+    <script src="../Forms/admin_ajax.js"></script>
+    <!-- <script src="../Forms/ajax_handler.js"></script> -->
+</body>
+
+</html>
