@@ -13,7 +13,7 @@ greetAdmin.textContent = "Good to see you back, Mr/Mrs " + backRes;
 const passengerTableBtn = document.querySelector('#passBtn');
 
 $(passengerTableBtn).click(function() {
-    window.location.href = "./showTable.html?table=" + encodeURIComponent("user"); // TEMPORARY FOR CHECKING PURPOSES
+    window.location.href = "./showTable.html?table=" + encodeURIComponent("passenger"); // TEMPORARY FOR CHECKING PURPOSES
 });
    
 // ------------------------------------------------------------------------------------------------------------------------
