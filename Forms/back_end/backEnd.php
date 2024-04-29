@@ -144,6 +144,20 @@
             $results = $dbObj->getFlights($flightQuery);
 
             $response["message"] = $results;
+        } else if ($actionType == "getSpecific") {
+
+            $idToGet = $_GET['id'];
+            $tableType = $_GET['table'];
+
+            $queryResult = $dbObj->getSpecific($idToGet, $tableType);
+
+            foreach ($queryResult as &$row) {
+                if ($row['password']) {
+                    unset($row['password']);
+                }
+            }
+
+            $response["message"] = $queryResult;
         }
 
     } else {
