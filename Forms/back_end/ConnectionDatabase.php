@@ -27,6 +27,10 @@
                 return true;
             }
         }
+        
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
 
         public function insert_into_users(array $infoToAdd): bool {
 
@@ -46,6 +50,10 @@
                 return false;
             }
         }
+
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
 
         public function checkLogin($email, $pass, $name): bool | string {
             // Use prepared statement to prevent SQL injection
@@ -74,8 +82,12 @@
                 }
             }
         }
+        
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
 
-        public function getFlights($flightQuery): array {
+        public function getFlights(array $flightQuery): array {
             // from, to, depDate, returnDate
             $sql = "SELECT * FROM flight WHERE origin = ? AND dest = ? AND date = ?";
 
@@ -93,7 +105,11 @@
 
         }
 
-        public function getAll($name): array {
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+
+        public function getAll(string $name): array {
             if ($name == "pass_flight") {
                 $sql = "SELECT 
                             pf.pass_id,
@@ -181,6 +197,146 @@
             }
 
             $stmt = $this->db_conn->prepare($sql);
+
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $result;
+        }
+
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+
+        public function getSpecific(array $idArr, string $tableName): array {
+
+            $idFirst = $idArr[0];
+
+            if (count($idArr) > 1) {
+                $idSecond = $idArr[1];
+            }
+
+            if ($tableName == "passenger") {
+                $idName = "pass_id";
+            } else if ($tableName == "flight") {
+                $idName = "flight_id";
+            } else if ($tableName == "staff") {
+                $idName = "staff_id";
+            } else if ($tableName == "airplane") {
+                $idName = "plane_id";
+            } else if ($tableName == "city") {
+                $idName = "city_id";
+
+// --------------------------------------------------------------------------------------------------------
+
+            } else {
+
+                if ($tableName == "pass_flight") {
+                    $sql = "SELECT 
+                            pf.pass_id,
+                            p.surname,
+                            p.name,
+                            f.flightNum,
+                            f.date,
+                            origin_city.name AS origin_city,
+                            dest_city.name AS dest_city
+                        FROM 
+                            pass_flight pf
+                        JOIN 
+                            passenger p ON pf.pass_id = p.pass_id
+                        JOIN 
+                            flight f ON pf.flightNum = f.flightNum
+                        JOIN 
+                            city origin_city ON f.origin_id = origin_city.city_id
+                        JOIN 
+                            city dest_city ON f.dest_id = dest_city.city_id
+                        WHERE pf.pass_id = ?;
+                        ";
+
+                    $stmt = $this->db_conn->prepare($sql);
+
+                    $stmt->bindValue(1, $idFirst, PDO::PARAM_INT);
+
+                } else if ($tableName == "flight_crew") {
+                    $sql = "SELECT 
+                                fc.flightNum,
+                                s.empNum,
+                                s.surname,
+                                s.name,
+                                fc.role
+                            FROM 
+                                flight_crew fc
+                            JOIN 
+                                staff s ON fc.empNum = s.empNum
+                            WHERE fc.flightNum = ? AND fc.empNum = ?;
+                            ";
+                    $stmt = $this->db_conn->prepare($sql);
+
+                    $stmt->bindValue(1, $idFirst, PDO::PARAM_INT);
+                    $stmt->bindValue(2, $idSecond, PDO::PARAM_INT);
+
+                } else if ($tableName == "pilot_valid") {
+                    $sql = "SELECT 
+                                pv.serNum,
+                                a.manufacturer,
+                                pv.rating,
+                                pv.empNum,
+                                s.surname,
+                                s.name
+                            FROM 
+                                pilot_valid pv
+                            JOIN 
+                                airplane a ON pv.serNum = a.serNum
+                            JOIN 
+                                staff s ON pv.empNum = s.empNum
+                            WHERE pv.serNum = ?;
+                            ";
+
+                    $stmt = $this->db_conn->prepare($sql);
+
+                    $stmt->bindValue(1, $idFirst, PDO::PARAM_STR);
+                    
+                } else if ($tableName == "inter_stop") {
+                    $sql = "SELECT 
+                                ist.flightNum,
+                                f.date,
+                                origin_city.name AS origin_city,
+                                city.name AS inter_stop_city,
+                                dest_city.name AS dest_city
+                            FROM 
+                                inter_stop ist
+                            JOIN 
+                                flight f ON ist.flightNum = f.flightNum
+                            JOIN 
+                                city origin_city ON f.origin_id = origin_city.city_id
+                            JOIN 
+                                city dest_city ON f.dest_id = dest_city.city_id
+                            JOIN 
+                                city ON ist.city_id = city.city_id
+                            WHERE ist.flightNum = ?
+                            ";
+
+                    $stmt = $this->db_conn->prepare($sql);
+
+                    $stmt->bindValue(1, $idFirst, PDO::PARAM_STR);
+                }
+
+                $stmt->execute();
+
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                return $result;
+            }
+
+// --------------------------------------------------------------------------------------------------------
+
+
+            $sql = "SELECT * FROM $tableName WHERE $idName = ?";
+
+            $stmt = $this->db_conn->prepare($sql);
+
+            $stmt->bindValue(1, $idFirst, PDO::PARAM_INT);
 
             $stmt->execute();
 
