@@ -344,5 +344,70 @@
 
             return $result;
         }
+
+
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+        public function updateTable(array $data, string $tableName): bool {
+            $sql = "SELECT column_name
+                    FROM information_schema.columns
+                    WHERE table_name = ?
+                    LIMIT 0, 25;
+                    ";
+
+            $stmt = $this->db_conn->prepare($sql);
+
+            $stmt->bindValue(1, $tableName, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $columnNames = $stmt->fetchAll(PDO::FETCH_ASSOC); // this will have the same number of elements as the $data array
+
+// --------------------------------------------------------------------------------------------------------
+
+            $setClauses = [];
+
+            $columns = array_slice($columnNames, 1);
+
+            $filteredColumns = array_filter($columns, function($column) {
+                return $column['column_name'] !== 'password';
+            });
+            
+            $columns = array_values($filteredColumns);
+            $values = array_slice($data, 1);
+
+            $setClauses = [];
+
+            foreach ($columns as $index => $column) {
+                $setClauses[] = $column['column_name'] . ' = :value' . $index;
+            }
+            
+            $setClause = implode(', ', $setClauses);            
+
+            $idCol = $columnNames[0]['column_name'];
+
+            // Construct the SQL update query
+            $sql = "UPDATE $tableName SET $setClause WHERE $idCol = :idVal;";
+
+            $stmt = $this->db_conn->prepare($sql);
+
+            foreach ($values as $index => $value) {
+                $stmt->bindValue(':value' . $index, $value);
+            }
+
+            $stmt->bindValue(':idVal', $data[0], PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $rowsChanged = $stmt->rowCount();
+
+            if ($rowsChanged > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     }
 ?>
