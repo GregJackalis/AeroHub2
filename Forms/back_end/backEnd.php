@@ -92,6 +92,13 @@
                 }
             }
 
+        } else if ($actionType == "updateData") {
+            $valueArr = $_POST['data'];
+            $tableType = $_POST['table'];
+
+            $rowsAffected = $dbObj->updateTable($valueArr, $tableType);
+            $response["message"] = $rowsAffected;
+
         } else {
 
             if ($actionType == "customerLogin") {
