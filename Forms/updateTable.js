@@ -33,6 +33,7 @@ containerForm.appendChild(formHeader);
 
 const updateForm = document.createElement('form');
 updateForm.classList.add('form');
+updateForm.id = "updateForm";
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -53,6 +54,8 @@ $(document).on('click', '#updateRec', function(event) {
     event.preventDefault();
     
     console.log("UPDATE BUTTON PRESSED!");
+
+    sentUpdateToBack();
 });
 
 //------------------------------------------------------------------------------------------------------------
@@ -70,7 +73,6 @@ function setupForm(responseArr) {
     console.log(fieldNames);
 
     fieldNames.forEach(function(field) {
-        console.log(field);
         if (counter === 2) {
             // If counter reaches 2, create a new column
             col = document.createElement('div');
@@ -150,4 +152,33 @@ function createColumnNames() {
 
 
     return columnNames;
+}
+
+
+
+function sentUpdateToBack() {
+    const updateForm = document.querySelector('#updateForm');
+
+    const inputElements = updateForm.querySelectorAll('input');
+
+    const valuesArray = [];
+
+    inputElements.forEach(input => {
+        const value = input.value;
+
+        valuesArray.push(value);
+    });;
+
+
+    var updateData = {
+        type: "updateData",
+        table: data[0],
+        data: valuesArray,
+    };
+    
+    console.log(updateData);
+    
+    $.post('../Forms/back_end/backEnd.php', updateData, function(response) {
+        console.log(response.message);
+    })
 }
