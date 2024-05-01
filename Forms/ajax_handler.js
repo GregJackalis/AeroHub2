@@ -5,6 +5,8 @@ const signInCustomerBtn = document.querySelector('#signIn'); // on customer page
 const customerBtn = document.querySelector('#customerBtn'); // on admin page
 const signInAdminBtn = document.querySelector('#adminSignInBtn'); // on admin page
 
+var userEmailL = ""; //global variable that will be used later as a parameter to be sent to the home.html pagae
+
 
 // FOR CUSTOMER SIGN UP
 $(function() {
@@ -41,7 +43,8 @@ $(function() {
 
         event.preventDefault();
 
-        var userEmailL = $("#l1").val();
+        userEmailL = $("#l1").val();
+
         var userPassL = $("#l2").val();
 
         if (userEmailL === "" || userPassL === "") {
@@ -125,23 +128,24 @@ $(function() {
                 console.log(response.message);
                 var flightsReturned  = response.message;
 
-                if (response.message !== false) {
-                    flightsReturned.forEach(function(flight) {
-                        console.log("Flight ID:", flight.id);
-                        console.log("Flight Number:", flight.flightNum); // important
-                        console.log("Origin:", flight.origin); // important
-                        console.log("Destination:", flight.dest); // important
-                        console.log("Date:", flight.date); // important
-                        console.log("Dep Time:", flight.dep_time); // important
-                        console.log("Arr Time:", flight.arr_time); // important
+                // if (response.message !== false) {
+                //     flightsReturned.forEach(function(flight) {
+                //         console.log("Flight ID:", flight.id);
+                //         console.log("Flight Number:", flight.flightNum); // important
+                //         console.log("Origin:", flight.origin); // important
+                //         console.log("Destination:", flight.dest); // important
+                //         console.log("Date:", flight.date); // important
+                //         console.log("Dep Time:", flight.dep_time); // important
+                //         console.log("Arr Time:", flight.arr_time); // important
     
-                    });
-                }
+                //     });
+                // }
 
                 if (flightsReturned.length === 0) {
                     showReply(false, "search");
                 } else {
                     showReply(flightsReturned, "search");
+                    createBookButton();
                 }
             });
         }
@@ -150,7 +154,9 @@ $(function() {
 });
 
 //------------------------------------------------------------------------------------------------------------
-
+//------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------
 
 function showReply(backRes, type) {
@@ -223,14 +229,27 @@ function showReply(backRes, type) {
 
             formR.appendChild(spanMessage2);
     
+            var arrayToSend = [];
+
+            arrayToSend.push(true);
+            arrayToSend.push(backRes.message[0]);
+            console.log(userEmailL);
+            arrayToSend.push(backRes.message[1]);
+
+
+            // Convert the array to JSON string
+            var jsonArr = JSON.stringify(arrayToSend);
+    
             setTimeout(() => {
-                window.location.href = "../Home/home.html";
-            }, 5000);
+                window.location.href = "../Home/home.html?logged=" + encodeURIComponent(jsonArr);
+            }, 5000);                
+
         }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
     // FOR SEARCH PROCESS
     } else if (type == "search") {
+        
         var resultField = document.querySelector('.check');
 
         while (resultField.firstChild) {
@@ -245,6 +264,10 @@ function showReply(backRes, type) {
 
         if (backRes == "emp") {
             responseEl.textContent = "We can't find you a flight with no help! Please provide some details!";
+        } else if (backRes == "sucBook") {
+            responseEl.textContent = "You have successfully booked a ticket for this flight!";
+        } else if (backRes == "failBook") {
+            responseEl.textContent = "You have already booked a flight!";
         } else {
             if (backRes == false) {
                 responseEl.textContent = "You might want to adjust your search criteria; no flights were found matching your destination and date selection.";    
@@ -336,9 +359,20 @@ function showReply(backRes, type) {
                 formL.appendChild(document.createElement("br"));
     
                 formL.appendChild(spanMessage2);
+
+                var arrayToSend = [];
+
+                arrayToSend.push(true);
+                arrayToSend.push(backRes);
+                console.log(userEmailL);
+                arrayToSend.push(userEmailL);
+
+
+                // Convert the array to JSON string
+                var jsonArr = JSON.stringify(arrayToSend);
         
                 setTimeout(() => {
-                    window.location.href = "../Home/home.html?logged=" + encodeURIComponent(true);
+                    window.location.href = "../Home/home.html?logged=" + encodeURIComponent(jsonArr);
                 }, 5000);                
 
 
@@ -413,4 +447,51 @@ function reappearElements(form, elements) {
     elements.forEach(function(element) {
         form.appendChild(element);
     });
+}
+
+function createBookButton() {
+
+    const searchDiv = document.querySelector('.status');
+    searchDiv.style.height = "200px";
+
+    const bookBtn = document.createElement('button');
+    bookBtn.id = "homepageBtn";
+    bookBtn.textContent = "Press here to book!";
+
+    searchDiv.append(bookBtn);
+
+    // meaning visitor hasnt singed in or has created an account
+    if (window.location.search === "") {    
+        bookBtn.addEventListener('click', function() {
+            alert("You need to be Signed In first in order to book a flight!");
+        });
+    } else {
+        bookBtn.addEventListener('click', function() {
+            const btnParams = new URLSearchParams(window.location.search);
+
+            const paramArrString = btnParams.get('logged');
+            const paramArr = JSON.parse(paramArrString);
+
+            const surname = paramArr[1];
+            const email = paramArr[2];
+
+            var requestData = {
+                type: "bookPassenger",
+                surname: surname,
+                email: email
+            };
+
+            console.log(requestData);
+
+            $.post('../Forms/back_end/backEnd.php', requestData, function(response) {
+                console.log(response.message);
+
+                if (response.message) {
+                    showReply("sucBook", "search");
+                } else {
+                    showReply("failBook", "search");
+                }
+            });
+        });
+    }
 }
