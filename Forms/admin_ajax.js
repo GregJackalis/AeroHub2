@@ -1,13 +1,22 @@
 const greetAdmin = document.querySelector('#greetAdmin');
+let adminName = ''; // Declare adminName variable outside of the if-else block
 
 // Retrieve the backRes value from the URL
 const adminParams = new URLSearchParams(window.location.search);
-const backRes = adminParams.get('backRes');
 
-console.log(backRes);
+if (adminParams && adminParams.toString() !== '') {
+    // Parameters were provided
+    adminName = adminParams.get('backRes'); // Assign value to adminName
+    sessionStorage.setItem('adminName', adminName);
+    console.log(sessionStorage.getItem('adminName'));
+} else {
+    // No parameters were provided
+    adminName = sessionStorage.getItem('adminName'); // Retrieve value from sessionStorage
+    console.log(adminParams.get('backRes'));
 
-// Use the backRes value
-greetAdmin.textContent = "Good to see you back, Mr/Mrs " + backRes;
+}
+
+greetAdmin.textContent = "Good to see you back, Mr/Mrs " + adminName;
 
 
 const passengerTableBtn = document.querySelector('#passBtn');
