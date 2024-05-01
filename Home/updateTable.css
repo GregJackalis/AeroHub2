@@ -5,6 +5,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
 body {
   min-height: 100vh;
   display: flex;
@@ -14,7 +15,9 @@ body {
   background-image: url(../images/admin-home-background.jpg);
   background-size: cover; /* Cover the entire background */
   background-repeat: no-repeat; /* Do not repeat the background image */
-  background-attachment: fixed; /* Fixed background */}
+  background-attachment: fixed; /* Fixed background */
+}
+
 .container {
   position: relative;
   max-width: 700px;
@@ -23,7 +26,9 @@ body {
   padding: 25px;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  right: 90px;
 }
+
 .container header {
   font-size: 1.5rem;
   color: #333;
@@ -112,6 +117,27 @@ body {
 .form button:hover {
   background: rgb(88, 56, 250);
 }
+
+
+.homeContainer {
+	position: relative;
+	bottom: 85px; /* adjust as needed */
+	left: -175px; /* adjust as needed */
+}
+
+#homepageBtn {
+	border-radius: 5px;
+	padding: 15px;
+	background-color: rgb(255, 72, 0);
+	color: white;
+}
+
+#homepageBtn:hover {
+	color: rgb(255, 72, 0);
+	background-color: white;
+}
+
+
 /*Responsive*/
 @media screen and (max-width: 500px) {
   .form .column {
@@ -121,3 +147,5 @@ body {
     row-gap: 15px;
   }
 }
+
+
