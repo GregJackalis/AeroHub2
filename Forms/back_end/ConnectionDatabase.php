@@ -88,22 +88,38 @@
 // --------------------------------------------------------------------------------------------------------
 
         public function getFlights(array $flightQuery): array {
-            // from, to, depDate, returnDate
-            $sql = "SELECT * FROM flight WHERE origin = ? AND dest = ? AND date = ?";
+
+            $sql = "SELECT city_id FROM city WHERE name IN (?, ?);";
 
             $stmt = $this->db_conn->prepare($sql);
 
             $stmt->bindValue(1, $flightQuery[0], PDO::PARAM_STR);
             $stmt->bindValue(2, $flightQuery[1], PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $cityIds = []; // Array to store city IDs
+
+            // Fetch all city IDs
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $cityIds[] = $row['city_id'];
+            }
+
+            // Prepare the second query
+            $sql = "SELECT * FROM flight WHERE origin_id = ? AND dest_id = ? AND date = ?";
+            $stmt = $this->db_conn->prepare($sql);
+
+            $stmt->bindValue(1, $cityIds[0], PDO::PARAM_INT);
+            $stmt->bindValue(2, $cityIds[1], PDO::PARAM_INT);
             $stmt->bindValue(3, $flightQuery[2], PDO::PARAM_STR);
 
             $stmt->execute();
 
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $result;
-
+            return $results;
         }
+
 
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
@@ -349,6 +365,7 @@
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
+
         public function updateTable(array $data, string $tableName): bool {
             $sql = "SELECT column_name
                     FROM information_schema.columns
@@ -409,5 +426,92 @@
             }
         }
 
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
+
+        public function deleteRec(array $id, string $tableName): string {
+            $sql = "SELECT column_name
+            FROM information_schema.columns
+            WHERE table_name = ?
+            LIMIT 0, 25;
+            ";
+
+            $stmt = $this->db_conn->prepare($sql);
+
+            $stmt->bindValue(1, $tableName, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $columnNames = $stmt->fetchAll(PDO::FETCH_ASSOC); // this will have the same number of elements as the $data array
+
+            $sql = "DELETE FROM $tableName
+            WHERE {$columnNames[0]['column_name']} = ?";
+
+            $stmt = $this->db_conn->prepare($sql);
+
+            $stmt->bindValue(1, $id[0], PDO::PARAM_STR);
+
+            try {
+                $stmt->execute();
+                return true;
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+
+
+        public function bookPassenger(string $surname, string $email): bool {
+
+            $sql = "SELECT * FROM passenger WHERE surname = ? AND email = ?";
+            $stmt = $this->db_conn->prepare($sql);
+            
+            $stmt->bindValue(1, $surname, PDO::PARAM_STR);
+            $stmt->bindValue(2, $email, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            $userDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($userDetails) {
+                return false;
+            } else {
+
+                $sql = "SELECT * FROM user WHERE surname = ? AND email = ?";
+
+                $stmt = $this->db_conn->prepare($sql);
+                
+                $stmt->bindValue(1, $surname, PDO::PARAM_STR);
+                $stmt->bindValue(2, $email, PDO::PARAM_STR);
+    
+                $stmt->execute();
+    
+                $userDetails = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    
+                $sql = "INSERT INTO passenger (pass_id, surname, name, email, password, address, phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
+                $stmt = $this->db_conn->prepare($sql);
+    
+                foreach ($userDetails as $user) {
+                    $stmt->bindValue(1, $user['user_id'], PDO::PARAM_INT);
+                    $stmt->bindValue(2, $user['surname'], PDO::PARAM_STR);
+                    $stmt->bindValue(3, $user['name'], PDO::PARAM_STR);
+                    $stmt->bindValue(4, $user['email'], PDO::PARAM_STR);
+                    $stmt->bindValue(5, $user['password'], PDO::PARAM_STR);
+                    $stmt->bindValue(6, $user['address'], PDO::PARAM_STR);
+                    $stmt->bindValue(7, $user['phone'], PDO::PARAM_STR);
+                    $stmt->execute();
+                }
+    
+            
+                // Check if any rows were inserted
+                return $stmt->rowCount() > 0;
+            }
+        }
+
+           
+
     }
+
 ?>
