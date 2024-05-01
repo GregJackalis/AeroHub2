@@ -13,6 +13,24 @@ var idData = data[2];
 // Now you have the array of parameters
 console.log("Current Record Data:", data);
 
+
+//------------------------------------------------------------------------------------------------------------
+
+// UPDATING HTML'S TITLE DYNAMICALLY
+
+if (data[0] == "pass_flight") {
+    document.title = "Passengers & Flights Table";
+} else if (data[0] == "flight_crew") {
+    document.title = "Flight-Crew Table";
+} else if (data[0] == "pilot_valid") {
+    document.title = "Pilot-Info Table";
+} else if (data[0] == "inter_stop") {
+    document.title = "Intermediate Stop Table";
+} else {
+    document.title = data[0].charAt(0).toUpperCase() + data[0].slice(1) + " Table";
+}
+
+
 //------------------------------------------------------------------------------------------------------------
 
 // GETTING CONTAINER ELEMENT TO ADD ALL THE FORM AND FORM DATA TO THE HTML PAGE
@@ -34,6 +52,15 @@ containerForm.appendChild(formHeader);
 const updateForm = document.createElement('form');
 updateForm.classList.add('form');
 updateForm.id = "updateForm";
+
+//------------------------------------------------------------------------------------------------------------
+
+
+// CREATING A BUTTON FOR THE ADMIN TO GO BACK TO TABLE VIEW
+
+$('#homepageBtn').click(function() {
+    window.location.href = "./showTable.html?table=" + encodeURIComponent(data[0]); // TEMPORARY FOR CHECKING PURPOSES
+});
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -180,5 +207,23 @@ function sentUpdateToBack() {
     
     $.post('../Forms/back_end/backEnd.php', updateData, function(response) {
         console.log(response.message);
+        showResponse(response.message);
+
     })
+}
+
+
+function showResponse(changed) {
+    const updateForm = document.querySelector('#updateForm');
+    updateForm.innerHTML = '';
+
+    const formHeader = document.createElement('header');
+    if (changed) {
+        formHeader.textContent = "Record was successfully changed!";
+    } else {
+        formHeader.textContent = "There was a problem updating the chosen record. Remember to keep in mind the order and foreign keys of each table.";
+    }
+
+    containerForm.appendChild(formHeader);
+
 }
