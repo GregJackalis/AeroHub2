@@ -3,9 +3,21 @@
 const adminParams = new URLSearchParams(window.location.search);
 const tableType = adminParams.get('table');
 
+if (tableType == "pass_flight") {
+    document.title = "Passengers & Flights Table";
+} else if (tableType == "flight_crew") {
+    document.title = "Flight-Crew Table";
+} else if (tableType == "pilot_valid") {
+    document.title = "Pilot-Info Table";
+} else if (tableType == "inter_stop") {
+    document.title = "Intermediate Stop Table";
+} else {
+    document.title = tableType.charAt(0).toUpperCase() + tableType.slice(1) + " Table";
+}
+
+
 var columnNames = [];
 var spanHeader = document.createElement("span");
-
 
 console.log(tableType);
 
@@ -58,6 +70,39 @@ $(document).on('click', "#up" + tableType, function() {
     window.location.href = url;
 });
    
+
+$(document).on('click', "#del" + tableType, function() {
+
+    var row = $(this).closest("tr");
+
+    var id = [];
+
+    if (tableType == "flight_crew") {
+        id.push(row.find("td:first").text());
+        id.push(row.find("td:eq(1)").text());
+    } else {
+        // Find the first column in the row and get its text content
+        id.push(row.find("td:first").text());
+    }
+    
+    var requestData = {
+        type: "delSpecific",
+        id: id,
+        table: tableType
+    };
+
+    console.log(requestData);
+
+    $.post('../Forms/back_end/backEnd.php', requestData, function(response) {
+        console.log(response.message);
+        
+        if (!response.message) {
+            alert("There was an error deleting the record. Cannot delete or update a parent row when a foreign key constraint is used");
+        } else {
+            alert("Record deleted successfully!");
+        }
+    })
+});
 
 
 //------------------------------------------------------------------------------------------------------------
