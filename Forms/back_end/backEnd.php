@@ -76,7 +76,7 @@
                 
                 if ($insertion) {
                     $response["status"] = "sucIns";
-                    $response["message"] = "Registered Successfully!";
+                    $response["message"] = [$_POST['userSurnameR'], $_POST['userEmailR']];
                 } else {
                     $response["status"] = "errIns";
                     $response["message"] = "Problem inserting to DB";
@@ -98,6 +98,21 @@
 
             $rowsAffected = $dbObj->updateTable($valueArr, $tableType);
             $response["message"] = $rowsAffected;
+
+        } else if ($actionType == "delSpecific") {
+            $idToDelete = $_POST['id'];
+            $deleteFrom = $_POST['table'];
+
+            $isDeleted = $dbObj->deleteRec($idToDelete, $deleteFrom);
+            $response["message"] = $isDeleted;
+
+
+        } else if ($actionType == "bookPassenger") {
+            $surname = $_POST['surname'];
+            $email = $_POST['email'];
+
+            $isAdded = $dbObj->bookPassenger($surname, $email);
+            $response["message"] = $isAdded;
 
         } else {
 
