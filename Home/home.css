@@ -299,6 +299,21 @@ nav .btns:hover {
     padding: 4px 0;
 }
 
+#homepageBtn {
+    position: absolute;
+    bottom: 10px;
+	right: 50px; /* adjust as needed */
+	border-radius: 5px;
+	padding: 12px;
+	background-color: rgb(0, 51, 255);
+	color: white;
+}
+
+#homepageBtn:hover {
+	color: rgb(0, 51, 255);
+	background-color: white;
+}
+
 
 /* RESPONSIVE DESIGN */
 @media(max-width: 1213px){
