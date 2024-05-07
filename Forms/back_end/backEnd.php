@@ -8,8 +8,7 @@
 
     include 'get_env.php';
 
-    set_exception_handler("ErrorHandler::handleException"); 
-
+    $errHandleObj = new ErrorHandler();
 
     // header("Content-type: application/json; charset=UTF-8"); 
     $response = array(
@@ -22,12 +21,12 @@
 
 
     $request_method = $_SERVER['REQUEST_METHOD'];
-    $db_Data = get_env_data('db');
+    $db_data = get_env_data('db');
     
     // ------------------------------------------------------------------------------------------------------------------------
     // Setting up connection with database
     
-    $dbObj = new ConnectionDatabase($db_Data); // PDO type variable used for sending queries to the DB
+    $dbObj = new ConnectionDatabase($db_data); // PDO type variable used for sending queries to the DB
 
     $checkConn = $dbObj->checkConn(); 
 
@@ -65,14 +64,14 @@
             // surname, name, email, password, address, phone
             $registerCred = [ $_POST['userSurnameR'],  $_POST['userNameR'], $_POST['userEmailR'], $_POST['userPassR'], $_POST['userAddressR'], $_POST['userPhoneR']];
 
-            $validation = new ValidationFunctions(); // this object will be used to validate the data that is passed 
+            $validationObj = new ValidationFunctions(); // this object will be used to validate the data that is passed 
             
 
-            $validatedArr = $validation->validateArray($registerCred);
+            $validatedArr = $validationObj->validateArray($registerCred);
             
             if ($validatedArr === true) {
 
-                $insertion = $dbObj->insert_into_users($registerCred);
+                $insertion = $dbObj->insertIntoUsers($registerCred);
                 
                 if ($insertion) {
                     $response["status"] = "sucIns";
