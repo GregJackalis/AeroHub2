@@ -15,9 +15,7 @@ console.log("Current Record Data:", data);
 
 
 //------------------------------------------------------------------------------------------------------------
-
 // UPDATING HTML'S TITLE DYNAMICALLY
-
 if (data[0] == "pass_flight") {
     document.title = "Passengers & Flights Table";
 } else if (data[0] == "flight_crew") {
@@ -32,13 +30,10 @@ if (data[0] == "pass_flight") {
 
 
 //------------------------------------------------------------------------------------------------------------
-
 // GETTING CONTAINER ELEMENT TO ADD ALL THE FORM AND FORM DATA TO THE HTML PAGE
-
 const containerForm = document.querySelector('.container');
 
 //------------------------------------------------------------------------------------------------------------
-
 // CREATING AN APPROPRIATE HEADER BASED ON THE TYPE OF TABLE
 
 const formHeader = document.createElement('header');
@@ -46,7 +41,6 @@ formHeader.textContent = "Update " + data[1];
 containerForm.appendChild(formHeader);
 
 //------------------------------------------------------------------------------------------------------------
-
 // CREATING A FORM
 
 const updateForm = document.createElement('form');
@@ -54,15 +48,13 @@ updateForm.classList.add('form');
 updateForm.id = "updateForm";
 
 //------------------------------------------------------------------------------------------------------------
-
-
-// CREATING A BUTTON FOR THE ADMIN TO GO BACK TO TABLE VIEW
+// CREATING A BUTTON EVENT FOR THE ADMIN TO GO BACK TO TABLE VIEW
+//------------------------------------------------------------------------------------------------------------
 
 $('#homepageBtn').click(function() {
     window.location.href = "./showTable.html?table=" + encodeURIComponent(data[0]); // TEMPORARY FOR CHECKING PURPOSES
 });
 
-//------------------------------------------------------------------------------------------------------------
 
 var requestData = {
     type: "getSpecific",
@@ -72,11 +64,18 @@ var requestData = {
 
 console.log(requestData);
 
+//------------------------------------------------------------------------------------------------------------
+// FUNCTION THAT GETS A SPECIFIC RECORD FROM THE BACK
+//------------------------------------------------------------------------------------------------------------
+
 $.get('../Forms/back_end/backEnd.php', requestData, function(response) {
     console.log(response.message);
     setupForm(response.message[0]);
 })
 
+
+//------------------------------------------------------------------------------------------------------------
+// FUNCTION THAT ADDS A CLICK EVENT TO THE UPDATE BUTTON WHICH TRIGGER CALLS THE sentUpdateToBack() FUNCTION
 $(document).on('click', '#updateRec', function(event) {
     event.preventDefault();
     
@@ -85,9 +84,10 @@ $(document).on('click', '#updateRec', function(event) {
     sentUpdateToBack();
 });
 
-//------------------------------------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------------------------------------
 // FUNCTION THAT SETS UP THE FROM
+//------------------------------------------------------------------------------------------------------------
 
 function setupForm(responseArr) {
     let col = document.createElement('div');
@@ -140,21 +140,24 @@ function setupForm(responseArr) {
     let idx = 0;
     Object.keys(responseArr).forEach(function(key) {
         console.log(key);
-        // Access the input field corresponding to the current index (idx)
-        const inputField = inputArray[idx];
         
-        // Set the value of the input field
-        inputField.value = responseArr[key];
+        const inputField = inputArray[idx]; // Access the input field corresponding to the current index (idx)
         
-        // Disable the first input field (if it's the first iteration)
-        if (idx === 0) {
+        inputField.value = responseArr[key];         // Set the value of the input field
+
+        
+        if (idx === 0) { 
+            // Disable the first input field (if it's the first iteration)
             inputField.disabled = true;
         }
         
-        // Increment the index for the next iteration
         idx++;
     });
 }
+
+//------------------------------------------------------------------------------------------------------------
+// FUNCTION THAT CRETATES COLUMNS FOR THE UPDATE TABLE TO SHOW
+//------------------------------------------------------------------------------------------------------------
 
 function createColumnNames() {
     if (data[0] == "flight") {
@@ -182,6 +185,9 @@ function createColumnNames() {
 }
 
 
+//------------------------------------------------------------------------------------------------------------
+// FUNCTION THAT SENDS THE UPDATED DATA FROM THE ADMIN TO THE BACK FOR THEM TO BE SAVED ON THE DB
+//------------------------------------------------------------------------------------------------------------
 
 function sentUpdateToBack() {
     const updateForm = document.querySelector('#updateForm');
@@ -212,6 +218,9 @@ function sentUpdateToBack() {
     })
 }
 
+//------------------------------------------------------------------------------------------------------------
+// FUNCTION THAT SHOWS AN APPROPRIATE RESPONSE BASED ON THE BACK END'S RESPONSE
+//------------------------------------------------------------------------------------------------------------
 
 function showResponse(changed) {
     const updateForm = document.querySelector('#updateForm');
