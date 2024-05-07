@@ -36,9 +36,8 @@ const tableBody = document.querySelector('#tableBody');
 const tableHeading = document.querySelector('#tableHeading');
 
 //------------------------------------------------------------------------------------------------------------
-
-// HANDLING PARAM FOR UPDATE BUTTONS
-
+// HANDLING PARAMETERS FOR UPDATE BUTTONS
+//------------------------------------------------------------------------------------------------------------
 $(document).on('click', "#up" + tableType, function() {
 
     var row = $(this).closest("tr");
@@ -70,7 +69,9 @@ $(document).on('click', "#up" + tableType, function() {
     window.location.href = url;
 });
    
-
+//------------------------------------------------------------------------------------------------------------
+// FUNCTION THAT HANDLES DELETE OPERATION ON THE ADMIN TABLE VIEW PAGE
+//------------------------------------------------------------------------------------------------------------
 $(document).on('click', "#del" + tableType, function() {
 
     var row = $(this).closest("tr");
@@ -106,13 +107,8 @@ $(document).on('click', "#del" + tableType, function() {
 
 
 //------------------------------------------------------------------------------------------------------------
-
-// ONE AJAX FUNCTION FOR EACH BUTTON/TABLE
-
-//------------------------------------------------------------------------------------------------------------
-
 // HTTP REQUEST TABLE
-
+//------------------------------------------------------------------------------------------------------------
 $.get('../Forms/back_end/backEnd.php', requestData, function(response) {
     console.log(response.message);
     showInTables(response.message);
@@ -120,12 +116,8 @@ $.get('../Forms/back_end/backEnd.php', requestData, function(response) {
 
 
 //------------------------------------------------------------------------------------------------------------
-
-
-//------------------------------------------------------------------------------------------------------------
-
 // FUNCTION FOR SHOWING REPLIES DYNAMICALLY FROM BACK END TO TABLES
-
+//------------------------------------------------------------------------------------------------------------
 function showInTables(backendTable) {
 
     try {
@@ -173,6 +165,10 @@ function showInTables(backendTable) {
     });
 }
 
+
+//------------------------------------------------------------------------------------------------------------
+// FUNCTION THAT CREATES DYNAMICALLY AN UPDATE AND DELETE BUTTON FOR EACH RECORD BEING SHOWN ON THE TABLE
+//------------------------------------------------------------------------------------------------------------
 function createUpdateDeleteBtns() {
     // Create the <td> element
     var td = document.createElement("td");
@@ -205,6 +201,9 @@ function createUpdateDeleteBtns() {
 }
 
 
+//------------------------------------------------------------------------------------------------------------
+// FUNCTION THAT CREATES COLUMN NAMES THAT ARE USED ON THE TABLE'S COLUMNS
+//------------------------------------------------------------------------------------------------------------
 function createColumnNames() {
     if (tableType == "flight") {
         columnNames = ["Flight ID", "Flight Number", "Date", "Departure Time", "Arrival Time", "From", "To", "Plane Serial Number"];
@@ -231,9 +230,9 @@ function createColumnNames() {
 }
 
 
-
+//------------------------------------------------------------------------------------------------------------
 // FUNCTION THAT HANDLES AND CREATES APPROPRIATE HEADING FOR EACH TABLE BASED ON THE PARAMETER OF THE PAGE
-
+//------------------------------------------------------------------------------------------------------------
 function createHeading() {
 
     if (tableType == "pass_flight") {
