@@ -1,7 +1,19 @@
 <?php
 
 class ErrorHandler {
-    public static function handleException(Throwable $exception): array {
+
+    // constructor class that sets by default an exception handler (which is the second function in this class)
+    // this is called by default when an ErrorHandler class object is made
+    public function __construct() {
+        set_exception_handler([$this, 'handleException']);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------------
+
+    // function extremely useful for debugging process, this is called when there is an error on the back end
+    // and it prints/returns to the console information about the error
+    private static function handleException(Throwable $exception): array {
         // this function will be used in order to translate the exception that is thrown (thus the Throwable data type)
         // from HTML code to json format
 
