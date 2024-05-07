@@ -2,13 +2,18 @@
     class ConnectionDatabase {
         private ?PDO $db_conn = null;
 
+        // constructor function that is called by default when a class object is made
+        // this function calls the connectToDatabase() function in order to establish a connection with the database
         public function __construct(array $data) {
-            $this->connect_to_database($data);
+            $this->connectToDatabase($data);
         }
 
-        // Database Functions for DB Operations
+//------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------
 
-        private function connect_to_database($data) : void { 
+        // function that is called from the constructor function and it establishes and creates a PDO object
+        // which is used for all sorts of operations with the database
+        private function connectToDatabase($data) : void { 
             $dsn = "mysql:host={$data[0]}; dbname={$data[3]}; charset=utf8";
     
             try {
@@ -18,9 +23,11 @@
             }
         }
 
-        // using a getter function because the PDO object is a private property, for now (21/04) i will be using this function in the main
-        // backEnd.php file, but later this function might be used from another class for a more dynamic and secure approach
-        public function checkConn(): bool { // function can return either nullable-type or pdo-type data
+//------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------
+
+        // this function is used to check whether a connection with the database has been established or not
+        public function checkConn(): bool { //
             if ($this->db_conn == null) {
                 return false; 
             } else {
@@ -30,9 +37,9 @@
         
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------
 
-        public function insert_into_users(array $infoToAdd): bool {
+        // function used to insert a user to the database, this is used when a register process of a customer is happening at the front
+        public function insertIntoUsers(array $infoToAdd): bool {
 
             $sql = "INSERT INTO user (surname, name, email, password, address, phone) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -53,10 +60,9 @@
 
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------
 
+        // function that checks the login credentials a user has given at the front
         public function checkLogin($email, $pass, $name): bool | string {
-            // Use prepared statement to prevent SQL injection
             $sql = "SELECT email, password, surname FROM $name WHERE email = ?";
             
             $stmt = $this->db_conn->prepare($sql);
@@ -69,7 +75,6 @@
 
 
             if ($row === false) {
-                // No rows found, return 'rec'
                 return false;
             } else {
                 // Row found, check password
@@ -77,7 +82,6 @@
                     // Passwords match, return the surname
                     return $row["surname"];
                 } else {
-                    // Passwords don't match, return 'inv'
                     return false;
                 }
             }
@@ -85,8 +89,8 @@
         
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------
 
+        // function that gets all flights, this is used on the search feature
         public function getFlights(array $flightQuery): array {
 
             $sql = "SELECT city_id FROM city WHERE name IN (?, ?);";
@@ -123,8 +127,10 @@
 
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------
 
+        // function that is used on the table view page of the admin's type user
+        // it uses a number of inter-connected queries in order to retrieve the correct data
+        // in the correct format while alsp taking into consideration all the foreign key constraints inside the database
         public function getAll(string $name): array {
             if ($name == "pass_flight") {
                 $sql = "SELECT 
@@ -223,8 +229,9 @@
 
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------
 
+        // function used on the admin's update page in order to get a specific record
+        // based on the type of the table the appropriate query is made and sent to the database
         public function getSpecific(array $idArr, string $tableName): array {
 
             $idFirst = $idArr[0];
@@ -364,8 +371,11 @@
 
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------
 
+        // this function is used on the update process of the page
+        // i followed this approach in which columns are selected based on the table name
+        // and then through using that AND the data passed from the front, a dynamic and correctly-formatted
+        // sql query command is made to be sent to the database
         public function updateTable(array $data, string $tableName): bool {
             $sql = "SELECT column_name
                     FROM information_schema.columns
@@ -428,8 +438,9 @@
 
 // --------------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------------------------------
 
+        // function used in order to delete a record, this is used when the admin presses the "DELETE" button on a record
+        // on the table view page
         public function deleteRec(array $id, string $tableName): string {
             $sql = "SELECT column_name
             FROM information_schema.columns
@@ -460,7 +471,12 @@
             }
         }
 
+// --------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------
 
+        // function used for the case when a passenger has successfully logged in or registered, a flight has successfully been found
+        // and the book flight button is pressed at the front
+        // this function gets the user's details and basically tranfers them to the passenger table
         public function bookPassenger(string $surname, string $email): bool {
 
             $sql = "SELECT * FROM passenger WHERE surname = ? AND email = ?";
